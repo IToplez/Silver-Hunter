@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Silver Hunter</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#111;
+color:white;
+}
+
+header{
+background:#FFC107;
+color:black;
+padding:15px;
+text-align:center;
+font-size:26px;
+font-weight:bold;
+}
+
+input{
+width:90%;
+padding:10px;
+border-radius:10px;
+border:0;
+}
+
+#map{
+height:500px;
+margin:10px;
+border-radius:15px;
+}
+
+.box{
+background:#222;
+margin:10px;
+padding:12px;
+border-radius:15px;
+text-align:center;
+}
+
+button{
+background:#FFC107;
+border:0;
+padding:7px 10px;
+margin:3px;
+border-radius:8px;
+font-size:12px;
+font-weight:bold;
+}
+
+img{
+max-width:180px;
+border-radius:10px;
+}
+
+textarea{
+width:90%;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header>
+🟡 SILVER HUNTER
+</header>
+
+
+<div class="box">
+
+🚗 Fast & Furious Silver Series
+<br>
+🏎️ Toyota Supra Kuning
+
+<br><br>
+
+<input id="cari" placeholder="Cari Alfamart / Indomaret..."
+onkeyup="cariToko()">
+
+<br>
+
+<button onclick="lokasiSaya()">
+📍 Lokasi Saya
+</button>
+
+</div>
+
+
+<div id="map"></div>
+
+
+<div class="box" id="info">
+Klik pin toko
+</div>
+
+
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script src="toko.js"></script>
+
+
+<script>
+
+
+var map=L.map('map')
+.setView([-7.02,107.52],13);
+
+
+
+L.tileLayer(
+'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+).addTo(map);
+
+
+
+var markerList=[];
+
+
+
+function ikon(jenis){
+
+return L.divIcon({
+
+html:
+jenis=="Alfamart"?"🔴":"🔵",
+
+className:"",
+
+iconSize:[30,30]
+
+});
+
+}
+
+
+
+toko.forEach(function(t,i){
+
+
+var m=L.marker(
+[t.lat,t.lng],
+{
+icon:ikon(t.jenis)
+}
+).addTo(map);
+
+
+
+markerList.push({
+marker:m,
+data:t
+});
+
+
+
+m.on("click",function(){
+
+tampil(i);
+
+});
+
+
+});
+
+
+
+function tampil(i){
+
+var t=toko[i];
+
+var status=
+localStorage.getItem("status"+i)
+||
+"🟡 Belum Dicek";
+
+var foto=
+localStorage.getItem("foto"+i)
+||
+"";
+
+var catatan=
+localStorage.getItem("catatan"+i)
+||
+"";
+
+
+document.getElementById("info").innerHTML=
+
+"<b>📍 "+t.nama+"</b>"+
+"<br>"+t.jenis+
+
+"<br><br>Status:<br>"+
+"<b>"+status+"</b>"+
+
+"<br><br>"+
+
+"<button onclick=\"ubah("+i+",'🟢 Ada Stok')\">🟢 Ada</button>"+
+"<button onclick=\"ubah("+i+",'🔴 Habis')\">🔴 Habis</button>"+
+
+"<br>"+
+
+"<button onclick=\"rute('"+t.alamat+"')\">📍 Rute</button>"+
+
+"<hr>"+
+
+"📝 Catatan<br>"+
+"<textarea id='cat'>"+catatan+"</textarea>"+
+"<br>"+
+"<button onclick=\"simpan("+i+")\">💾 Simpan</button>"+
+
+"<br><br>"+
+"📸 Foto<br>"+
+"<input type='file' accept='image/*' onchange='foto(event,"+i+")'>"+
+
+(foto?
+"<br><img src='"+foto+"'>"
+:"");
+
+
+}
+
+
+
+function ubah(i,s){
+
+localStorage.setItem(
+"status"+i,
+s
+);
+
+location.reload();
+
+}
+
+
+
+function simpan(i){
+
+localStorage.setItem(
+"catatan"+i,
+document.getElementById("cat").value
+);
+
+alert("tersimpan");
+
+}
+
+
+
+function foto(e,i){
+
+var r=new FileReader();
+
+r.onload=function(){
+
+localStorage.setItem(
+"foto"+i,
+r.result
+);
+
+location.reload();
+
+}
+
+r.readAsDataURL(e.target.files[0]);
+
+}
+
+
+
+function rute(a){
+
+window.open(
+"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(a)
+);
+
+}
+
+
+
+function cariToko(){
+
+var x=document
+.getElementById("cari")
+.value
+.toLowerCase();
+
+
+markerList.forEach(function(a,i){
+
+
+if(
+a.data.nama.toLowerCase()
+.includes(x)
+)
+
+{
+
+a.marker.openPopup();
+
+map.setView(
+[
+a.data.lat,
+a.data.lng
+],
+16
+);
+
+}
+
+
+});
+
+}
+
+
+
+function lokasiSaya(){
+
+
+map.locate({
+setView:true,
+maxZoom:16
+});
+
+
+}
+
+
+
+</script>
+
+
+</body>
+</html>
