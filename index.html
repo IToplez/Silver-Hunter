@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Silver Hunter</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body {
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#111;
+  color:white;
+}
+
+header {
+  background:#FFC107;
+  color:#000;
+  padding:25px;
+  text-align:center;
+  font-size:32px;
+  font-weight:bold;
+}
+
+.container {
+  padding:20px;
+  text-align:center;
+}
+
+.card {
+  background:#222;
+  border-radius:20px;
+  padding:25px;
+  margin-top:20px;
+  box-shadow:0 0 15px #000;
+}
+
+.car {
+  font-size:60px;
+}
+
+h2 {
+  color:#FFC107;
+}
+
+.status {
+  background:#555;
+  padding:12px;
+  border-radius:10px;
+  margin:15px 0;
+}
+
+button {
+  width:90%;
+  padding:15px;
+  margin:10px;
+  border:none;
+  border-radius:15px;
+  background:#FFC107;
+  color:#000;
+  font-size:17px;
+  font-weight:bold;
+}
+
+button:hover {
+  background:#ffd54f;
+}
+
+.footer {
+  text-align:center;
+  color:#aaa;
+  margin-top:30px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<header>
+🟡 SILVER HUNTER
+</header>
+
+
+<div class="container">
+
+<div class="card">
+
+<div class="car">
+🚗
+</div>
+
+<h2>
+Hot Wheels Fast & Furious
+</h2>
+
+<h3>
+Silver Series
+</h3>
+
+<p>
+🏎️ Target Utama:
+<br>
+Toyota Supra Kuning
+</p>
+
+
+<div class="status">
+🟡 Status: Belum Dicek
+</div>
+
+
+<button onclick="mulaiHunting()">
+🚗 Mulai Hunting
+</button>
+
+
+<button onclick="bukaPeta()">
+🗺️ Buka Peta Bandung
+</button>
+
+
+</div>
+
+
+<div class="footer">
+Silver Hunter v1.0
+<br>
+Hunter Hot Wheels Bandung
+</div>
+
+
+</div>
+
+
+<script>
+
+function mulaiHunting(){
+
+alert(
+"🚗 Hunting Dimulai!\n\n"+
+"Target:\n"+
+"Hot Wheels Fast & Furious Silver Series\n"+
+"Toyota Supra Kuning\n\n"+
+"Wilayah:\nBandung"
+);
+
+}
+
+
+function bukaPeta(){
+
+window.open(
+"https://www.google.com/maps/search/Alfamart+Bandung",
+"_blank"
+);
+
+}
+
+</script>
+
+
+</body>
+</html>
