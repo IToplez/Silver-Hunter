@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Silver Hunter</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#111;
+color:white;
+}
+
+header{
+background:#FFC107;
+color:#000;
+padding:20px;
+text-align:center;
+font-size:30px;
+font-weight:bold;
+}
+
+#map{
+height:550px;
+margin:10px;
+border-radius:15px;
+}
+
+.info{
+background:#222;
+margin:15px;
+padding:15px;
+border-radius:15px;
+text-align:center;
+}
+
+button{
+background:#FFC107;
+border:none;
+padding:10px;
+margin:4px;
+border-radius:10px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+🟡 SILVER HUNTER
+</header>
+
+
+<div id="map"></div>
+
+
+<div class="info" id="info">
+Klik pin Alfamart
+</div>
+
+
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+<script>
+
+
+var map=L.map('map')
+.setView([-6.9175,107.6191],12);
+
+
+
+L.tileLayer(
+'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+).addTo(map);
+
+
+
+var toko=[
+
+{
+nama:"Alfamart Antapani",
+lat:-6.914,
+lng:107.660
+},
+
+{
+nama:"Alfamart Buah Batu",
+lat:-6.950,
+lng:107.630
+},
+
+{
+nama:"Alfamart Dago",
+lat:-6.885,
+lng:107.613
+},
+
+{
+nama:"Alfamart Cimahi",
+lat:-6.872,
+lng:107.542
+},
+
+{
+nama:"Alfamart Cibiru",
+lat:-6.917,
+lng:107.716
+}
+
+];
+
+
+
+toko.forEach(function(t,i){
+
+
+var status=
+localStorage.getItem("stok"+i)
+||"🟡 Belum Dicek";
+
+
+
+var marker=L.marker(
+[t.lat,t.lng]
+).addTo(map);
+
+
+
+marker.bindPopup(
+
+"<b>📍 "+t.nama+"</b>"+
+"<br><br>"+
+"🚗 Hot Wheels Fast & Furious"+
+"<br>"+
+"🏎️ Toyota Supra Kuning"+
+"<br><br>"+
+"Status: "+status+
+"<br><br>"+
+
+"<button onclick=\"ubah("+i+",'🟢 Ada Stok')\">🟢 Ada</button>"+
+"<button onclick=\"ubah("+i+",'🔴 Habis')\">🔴 Habis</button>"+
+"<br>"+
+"<button onclick=\"rute("+t.lat+","+t.lng+")\">📍 Arahkan ke Sini</button>"
+
+);
+
+
+
+});
+
+
+
+
+function ubah(i,status){
+
+localStorage.setItem(
+"stok"+i,
+status
+);
+
+alert(
+"Status berubah menjadi "+status
+);
+
+location.reload();
+
+}
+
+
+
+
+function rute(lat,lng){
+
+
+var url=
+"https://www.google.com/maps/dir/?api=1&destination="
++lat+","+lng;
+
+
+window.open(url,"_blank");
+
+
+}
+
+
+</script>
+
+
+</body>
+</html>
